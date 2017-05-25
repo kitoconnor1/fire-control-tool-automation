@@ -38,3 +38,4 @@ for i in range(0, len(paths)):
     arcpy.Delete_management(str(arcpy.env.workspace) + "/dem" + str(i) + "_sa.tif")
 #####################################################################
     
+
