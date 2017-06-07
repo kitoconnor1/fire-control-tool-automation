@@ -1,11 +1,15 @@
+#######################################################################################
+# Downloads elevation data (DEM) from LANDFIRE webservice for user-defined study area #
+#######################################################################################
+
 import arcpy, os, sys, urllib2
 import json
 import xml.dom.minidom as DOM
 import time
 
-################ Script inputs #######################
+################ User inputs #########################
 home = "E:/GISData/fire_control_modl_proj/"
-SA = home + "Tonto_study_area.shp"
+SA = home + "Tonto_study_area.shp" # Polygon shapefile identifying study area
 ######################################################
 
 arcpy.env.workspace = home # Set workspace #
