@@ -1,13 +1,17 @@
+####### Generates response variable for boosted regression tree from MTBS fire perimeter polygons ######
+
 import os,urllib2,urllib
 import arcpy
 arcpy.CheckOutExtension("Spatial")
 
+#################################### Inputs ###################################
 arcpy.env.workspace = r"E:\GISData\fire_control_modl_proj" # Set workspace #
 arcpy.env.extent = "dem.tif"
 arcpy.env.snapRaster = "dem.tif"
 arcpy.env.overwriteOutput = True
 base_dir = 'E:/GISData/fire_control_modl_proj/' # for trying my own list
 SA = "Tonto_study_area.shp" # Polygon defining study landscape #
+###############################################################################
 
 # Set up inputs (not working yet; download gets interrupted) #
 #url = 'http://www.mtbs.gov/MTBS_Uploads/data/composite_data/burned_area_extent_shapefile/mtbs_perimeter_data.zip'
