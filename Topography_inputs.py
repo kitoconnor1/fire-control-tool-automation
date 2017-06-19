@@ -71,5 +71,5 @@ del(tpi_1, tpi_dist)
 # Cleanup
 arcpy.Delete_management("slope_deg.tif")
 arcpy.Delete_management("DEM_200m.tif")
-del(steep, slope, DEM_200)
+del(steep, tpi, slope, DEM_200)
 ###########################################################################################################
