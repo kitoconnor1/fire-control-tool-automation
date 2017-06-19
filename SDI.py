@@ -22,7 +22,7 @@ arcpy.env.overwriteOutput = True
 #Set environmental settings for projection
 CoordSys_ID = 102039   # Set to WKID for desired coordinate system defined by ESRI
 CoordSys = arcpy.SpatialReference(CoordSys_ID)
-arcpy.env.outputCoordinateSystem = arcpy.SpatialReference("USA Contiguous Albers Equal Area Conic") #***Not sure where this gets used. Revisit later.***
+arcpy.env.outputCoordinateSystem = arcpy.SpatialReference("USA Contiguous Albers Equal Area Conic")
 
 ####################################################################################################################################################################################
 #  SET INPUT PATHS
@@ -103,7 +103,7 @@ fuel_unique = numpy.unique(fuelGrid_M).tolist()
 del fuel_unique[0] # Removes NoData value (-32768) from list
 for fuel in fuel_unique:
     R = Con((fuelGrid == fuel), 1, 0)
-    R = arcpy.gp.FocalStatistics_sa(R, "fuel" + str(fuel) + "_Prp900m.tif", "Circle 900 MAP", "MEAN", "DATA")
+    R = arcpy.gp.FocalStatistics_sa(R, "fuel" + str(fuel) + "_Prp900m.tif", "Circle 56.41896 MAP", "MEAN", "DATA")
     propFuel = Con((propFuel == fuel), R, propFuel)
     del(R)
 
@@ -168,7 +168,7 @@ print "Calculating Accessibility sub index for SDI:"
 
 streets_lyr = arcpy.MakeFeatureLayer_management(streets_file, "streets_lyr")
 arcpy.SelectLayerByAttribute_management(streets_lyr, "NEW_SELECTION", where_clause=""""SPEED_CAT" <> '7' AND "SPEED_CAT" <> '8'""")
-roadlen_rast = arcpy.gp.LineStatistics_sa(streets_lyr, "NONE", "roads_length_900m.tif", "30", "900", "LENGTH")
+roadlen_rast = arcpy.gp.LineStatistics_sa(streets_lyr, "NONE", "roads_length_900m.tif", "30", "56.41896", "LENGTH")
 
 # Reclassify according to table 3 in Rodriguez y Silva et al. 2014
 print "Reclassify road length raster to assigned accessibility index value"
@@ -207,7 +207,7 @@ fuelTreat_poly = arcpy.RasterToPolygon_conversion(fuelTreat_ModHigh, simplify="S
 firebreaks_line = arcpy.PolygonToLine_management(fuelTreat_poly, mob_dir + "/firebreaks_line.shp", "IGNORE_NEIGHBORS")
 
 # Convert fire break polyline to neighborhood length raster
-firebreaks_length = arcpy.gp.LineStatistics_sa(firebreaks_line, "NONE", "FBlength_900m.tif", "30", "900", "LENGTH")
+firebreaks_length = arcpy.gp.LineStatistics_sa(firebreaks_line, "NONE", "FBlength_900m.tif", "30", "56.41896", "LENGTH")
 firebreaks_length = arcpy.gp.ExtractByMask_sa(firebreaks_length, dem_file, mob_dir + "/FBlength_900m.tif")
 
 # Reclassify according to table 3 in Rodriguez y Silva et al. 2014
