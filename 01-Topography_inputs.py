@@ -1,3 +1,14 @@
+#-------------------------------------------------------------------------------
+# Name:                Topographic inputs
+#
+# Schematic component: Physical landscape characteristics I: topography
+#
+# Purpose:             Generate the distance to major road and barrier input layers
+#                      for BRT analysis
+#
+# Author:              Quresh Latif
+#-------------------------------------------------------------------------------
+
 import arcpy
 from arcpy import env
 from arcpy.sa import *
