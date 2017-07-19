@@ -56,7 +56,7 @@ prj_in = "PROJCS['NAD_1983_Albers',GEOGCS['GCS_North_American_1983',DATUM['D_Nor
 
 #Vector Inputs
 streets_file = base + "/streets.shp" #A polyline of trail locations, if user does not have this, just insert path to roads polyline layer again
-#trails = base + "/inputs/bitter_trails.shp" #A polyline of trail locations, if user does not have this, just insert path to roads polyline layer again
+trails = base + "/trails.shp" #A polyline of trail locations, if user does not have this, just insert path to roads polyline layer again
 
 #Topographic Inputs
 dem_file = base + "/dem.tif" #This is the path to a ditigal elevation model (meters)
@@ -308,10 +308,25 @@ arcpy.gp.ReclassByASCIIFile_sa(fuels_file, rtc_lookup, fuel_Cntrl_out, "NODATA")
 fuel_Cntrl_rast = Raster(fuel_Cntrl_out)
 
 #Extract trails layer from Streets file and calculate length of trails within 1 ha (56.41896m radius) moving window.
-streets_lyr = arcpy.MakeFeatureLayer_management(streets_file, "streets_lyr")
-arcpy.SelectLayerByAttribute_management(streets_lyr, "NEW_SELECTION", where_clause=""""SPEED_CAT" = '7' OR "SPEED_CAT" = '8'""")
-arcpy.gp.LineStatistics_sa(streets_lyr, "NONE", "trails_length_900m.tif", "30", "56.41896", "LENGTH")
+#streets_lyr = arcpy.MakeFeatureLayer_management(streets_file, "streets_lyr")
+#arcpy.SelectLayerByAttribute_management(streets_lyr, "NEW_SELECTION", where_clause=""""SPEED_CAT" = '7' OR "SPEED_CAT" = '8'""")
+#arcpy.gp.LineStatistics_sa(streets_lyr, "NONE", "trails_length_900m.tif", "30", "56.41896", "LENGTH")
+#trail_rast = Raster("trails_length_900m.tif")
+
+#Temporary work around
+#Extract trails layer from Streets file and calculate length of trails within 1 ha (56.41896m radius) moving window.
+#streets_lyr = arcpy.MakeFeatureLayer_management(streets_file, "streets_lyr")
+#arcpy.SelectLayerByAttribute_management(streets_lyr, "NEW_SELECTION", where_clause=""""SPEED_CAT" = '7' OR "SPEED_CAT" = '8'""")
+arcpy.gp.LineStatistics_sa(trails, "NONE", "trails_length_900m.tif", "30", "56.41896", "LENGTH")
 trail_rast = Raster("trails_length_900m.tif")
+
+#Merge streets Sp cat 7 & 8 with trails
+#Extract trails layer from Streets file and calculate length of trails within 1 ha (56.41896m radius) moving window.
+#streets_lyr = arcpy.MakeFeatureLayer_management(streets_file, "streets_lyr")
+#arcpy.SelectLayerByAttribute_management(streets_lyr, "NEW_SELECTION", where_clause=""""SPEED_CAT" = '7' OR "SPEED_CAT" = '8'""")
+#trails_lyr = arcpy.Merge_management([trails, streets_lyr], trails_st)
+#arcpy.gp.LineStatistics_sa(trails_st, "NONE", "trails_length_900m.tif", "30", "56.41896", "LENGTH")
+#trail_rast = Raster("trails_length_900m.tif")
 
 #Convert pre-suppression trails raster into assigned values
 print "Reclassifying road/trail lengths to assigned values"
