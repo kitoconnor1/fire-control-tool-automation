@@ -133,3 +133,4 @@ for i in range(0, len(LFproduct)):
     zip_ref = zipfile.ZipFile(str(requestID) + ".zip", 'r')
     zip_ref.extractall(arcpy.env.workspace)
     zip_ref.close()
+    os.remove(str(requestID) + ".zip")
